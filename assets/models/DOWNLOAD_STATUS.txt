@@ -1,0 +1,7 @@
+3D ASSET DOWNLOAD STATUS
+
+This pack includes a curated asset manifest and Windows URL shortcuts to the official/source download pages.
+The remote GLB/FBX binary downloads could not be retrieved into this environment, so no placeholder
+or fake model files have been created. Open the shortcuts to download the real files from the source.
+The NASA ISS FBX is listed as a ZIP package on its NASA asset page; extract it after download.
+Prefer GLB for browser delivery; convert/optimize FBX offline and preserve the original source file.

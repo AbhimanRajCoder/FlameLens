@@ -1,0 +1,8 @@
+MODEL ARTIFACT STATUS
+
+No trained ML model artifact was present in the supplied files or accessible project upload.
+The supplied pyproject.toml is dependency/package configuration; it is not model weights.
+No .pkl, .joblib, .onnx, .pt, .pth, .h5 or .safetensors model artifact was supplied.
+No demo/ folder was uploaded in this conversation, so it could not be inspected.
+No model artifact has been copied or claimed as usable. Build the first FLEX baseline only after
+the target and group audit described in the documents.

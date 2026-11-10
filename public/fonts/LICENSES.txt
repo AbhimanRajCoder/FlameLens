@@ -1,0 +1,14 @@
+Font files bundled for offline, first-party delivery (no runtime CDN calls).
+
+Fraunces (variable, latin) — Copyright The Fraunces Project Authors.
+SIL Open Font License 1.1 — https://fonts.google.com/specimen/Fraunces
+
+Inter (variable, latin) — Copyright The Inter Project Authors.
+SIL Open Font License 1.1 — https://fonts.google.com/specimen/Inter
+
+IBM Plex Mono (400/500/600, latin) — Copyright IBM Corp.
+SIL Open Font License 1.1 — https://fonts.google.com/specimen/IBM+Plex+Mono
+
+All three families are licensed under the SIL Open Font License, Version 1.1.
+License text: https://openfontlicense.org/open-font-license-official-text/
+Retrieved 2026-11-10 from fonts.gstatic.com (Google Fonts distribution).

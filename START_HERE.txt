@@ -1,0 +1,34 @@
+FLAMELENS — NASA FIRE-SAFETY INTELLIGENCE DASHBOARD
+QUODER PROJECT HANDOFF
+
+START HERE
+1. Read QUODER_BOOTSTRAP_PROMPT.md.
+2. Read all five documents in documents/: Architecture.md, Design.md, Phases.md, PRD.md and Rules.md.
+3. Read data/README_DATA_MAP.md. Do not assume the CSVs are all training-ready.
+4. Read the matching data/model_readmes/*.md before using a dataset.
+
+DATA IS NOW PHYSICALLY SEGREGATED
+data/source_data/01_flame_extinction/  — PSI-69 FLEX; PSI-159 CFI-G normal; PSI-159 CFI-G inverse.
+data/source_data/02_flame_spread/      — PSI-25 BASS-II; PSI-99 SAFFIRE-II; PSI-100 SAFFIRE-III.
+data/source_data/03_soot_smoke/        — PSI-107 SPICE.
+data/source_data/04_smoke_detection/   — PSI-102 SAME.
+Each supplied CSV appears in one category only. Raw file names and values are preserved.
+
+DATA CONTRACT / AUDIT
+data/audit/MODEL_DATA_ASSIGNMENT.csv   — exact source-to-track and readiness mapping.
+data/audit/FEATURE_TARGET_MATRIX.csv    — field roles: inputs, targets, outputs, metadata and restrictions.
+data/audit/DATASET_AUDIT.csv             — counts and quality findings for the uploaded files.
+data/audit/ADDITIONAL_SOURCE_REGISTER.csv — high-value extra NASA sources and acquisition tasks.
+data/additional_official_sources/      — source notes for PSI-98, PSI-101, PSI-60, PSI-62, PSI-117, PSI-10 and DAFT/DAFT-2.
+
+IMPORTANT EXTRA NASA DATA
+The extra sources are documented but their original raw/reduced data files were not uploaded or downloaded into this pack. Prioritize PSI-60 for SPICE soot targets, PSI-62 for BASS/BASS-II derived spread targets, PSI-98 for SAFFIRE-I imagery/sensors, and PSI-101 for SAME-R detection evidence. LUCI now has an identified NASA NTRS publication describing simulated lunar-gravity combustion results; this is external NASA evidence, not a local PSI CSV. FM² has a NASA project page but no dataset bundled here. Do not fabricate files or count derived analyses as independent flight tests.
+
+OTHER PROJECT FILES
+data/reference/ contains the three source PDFs supplied for the project.
+assets/models/ contains 3D asset source links and an asset manifest. Binary GLB/FBX models were not downloaded in this environment.
+pyproject.toml is the supplied Python dependency/build configuration, not a model.
+MODEL_ARTIFACT_STATUS.txt explains that no trained model weights or demo folder were supplied.
+.gitignore is the supplied project ignore file.
+
+THE PACK IS A SPECIFICATION + SOURCE-DATA HANDOFF, NOT IMPLEMENTED WEBSITE CODE. Quoder should build the application from the documents and should not claim that absent models, data or assets are present.

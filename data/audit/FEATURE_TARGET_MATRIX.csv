@@ -1,0 +1,28 @@
+﻿model_question,field_or_measurement,role,source_family,implementation_rule
+FLEX droplet extinction,Fuel,Categorical pre-test input,PSI-69 FLEX,Keep categorical; use verified fuel identities; avoid ordinal integer encoding
+FLEX droplet extinction,Ambient pressure; mmHg,Pre-test input,PSI-69 FLEX,Convert to SI only in derived view; retain raw value and source unit
+FLEX droplet extinction,O/N/CO/He initial ambient composition,Pre-test inputs,PSI-69 FLEX,Keep mole fractions distinct; validate mixture sum and source precision
+FLEX droplet extinction,Droplet initial diameter; mm,Pre-test input / physical feature,PSI-69 FLEX,Candidate d0^2 feature only in derived table with documented assumptions
+FLEX droplet extinction,Test end,Target candidate / event code,PSI-69 FLEX,"Decode Extinction, Disruption, Completion and test endpoint before classification"
+FLEX droplet extinction,Visible flame extinction diameter; mm,Outcome only,PSI-69 FLEX,Never use as pre-test predictor
+FLEX droplet extinction,Burning rate; mm,Outcome only; unit unclear,PSI-69 FLEX,Verify definition/unit; not a pre-test predictor
+FLEX droplet extinction,Burn time; s,Outcome / potential survival-time field,PSI-69 FLEX,Need censoring and endpoint semantics; do not use as input
+CFI-G normal,XO2 before test; Xf; pressure; mHC,Candidate pre-event inputs,PSI-159 Normal,Verify timing/definitions; keep normal configuration separate
+CFI-G normal/inverse,Tad; Zst,Derived or recorded physical features,PSI-159,Only use with exact documented thermochemistry/mixture convention and pre-test inputs
+CFI-G normal/inverse,TFP,Exclude pending definition,PSI-159,Original field guide says physical meaning needs verification
+CFI-G normal/inverse,Self-ext or flow term,Target candidate / event code,PSI-159,"Decode SE, FT, dash and observation protocol before modelling"
+CFI-G normal/inverse,"After-test composition, peak temperature, burn time",Outcome/post-event,PSI-159,Not pre-test inputs
+Flame spread,"Material, sample thickness/length/width",Pre-test inputs,BASS-II / SAFFIRE,Preserve material form and exact geometry units
+Flame spread,"Initial O2, initial CO2/CO",Pre-test inputs,BASS-II / SAFFIRE,Keep composition definitions and percent/mole fraction distinct
+Flame spread,Airflow / flow direction,Pre-test inputs,BASS-II / SAFFIRE,Calibrate display values; preserve opposed/concurrent convention
+Flame spread,Ignition power/time,Pre-test inputs,SAFFIRE-II/III,Use only when known before prediction time
+Flame spread,Flame-front position versus time,Derived target source,"SAFFIRE-I/II/III, BASS/BASS-II",Requires calibrated image geometry/timebase and target interval
+Flame spread,?-g spread length,Outcome candidate / regime unknown,SAFFIRE-II,Do not assume µg/0-g until source field spelling is verified
+Flame spread,1-g spread rate,Outcome under 1-g regime,SAFFIRE-II,Do not relabel as microgravity target
+SPICE soot/smoke,"Fuel, nozzle diameter, fuel rate, HC fuel rate, air rate",Pre-test or controlled-condition inputs,PSI-107,Check duplicate/derived fuel flow fields and standard flow conditions
+SPICE soot/smoke,Smoke-point length,Target needed,PSI-60 analyzed SPICE / PSI-107 link,Retrieve NASA definition and run-level mapping
+SPICE soot/smoke,Soot volume fraction,Target candidate,PSI-60 analyzed SPICE,Requires calibrated imaging/diagnostic provenance
+SPICE soot/smoke,Luminous flame length,Separate target,PSI-107/PSI-60,Do not substitute for smoke-point length
+Smoke detection,Particle size distribution / number concentration,Detection evidence/output,SAME / SAME-R,"Need measurement method, uncertainty and source conditions"
+Smoke detection,Detector raw signal / alarm / time-to-alarm,Target needed for detector response,SAME / SAME-R / related tests,Must pair sensor exposure and source aerosol records
+Smoke detection,Dust/background aerosol,Confounder / control condition,DAFT / DAFT-2,Keep dust separate from combustion smoke

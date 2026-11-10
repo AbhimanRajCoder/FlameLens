@@ -1,0 +1,30 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+.DS_Store
+data/ingested/
+data/normalized/
+data/tasks/
+/models/
+knowledge/index/
+
+# Node / Vite
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Secrets — names only in .env.example; never commit values
+.env
+.env.*
+!.env.example
+*.local
+
+# Local inspection and browser verification artifacts
+.tmp-*/
+.tmp-*
+playwright-report/
+test-results/
+screenshots/
+scripts/

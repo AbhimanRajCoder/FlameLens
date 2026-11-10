@@ -1,0 +1,82 @@
+/* FlameLens design tokens — documents/Design.md is the visual source of truth. */
+:root {
+  --space-950: #070b14;
+  --space-900: #0b1220;
+  --panel-800: #111c2d;
+  --panel-700: #172438;
+  --text-100: #f3f6fa;
+  --text-400: #a9b5c5;
+  --ice-400: #66d9f2;
+  --amber-400: #f3b65a;
+  --ember-500: #e66a52;
+  --safe-400: #76c7a3;
+
+  --ice-dim: rgba(102, 217, 242, 0.14);
+  --amber-dim: rgba(243, 182, 90, 0.12);
+  --ember-dim: rgba(230, 106, 82, 0.12);
+  --safe-dim: rgba(118, 199, 163, 0.12);
+  --hairline: rgba(169, 181, 197, 0.16);
+  --hairline-strong: rgba(169, 181, 197, 0.3);
+
+  /* Fixed function mapping (Design.md §7): never color-only — always paired with a label. */
+  --fn-prevent: #76c7a3;
+  --fn-detect: #66d9f2;
+  --fn-suppress: #e66a52;
+  --fn-context: #a9b5c5;
+
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Mono', Consolas, monospace;
+
+  --header-h: 64px;
+  --max-w: 1200px;
+  --radius: 8px;
+  --radius-sm: 6px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-scene: 700ms;
+  --dur-ui: 180ms;
+}
+
+@font-face {
+  font-family: 'Fraunces';
+  src: url('/fonts/fraunces-latin.woff2') format('woff2');
+  font-weight: 300 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Fraunces';
+  src: url('/fonts/fraunces-italic-latin.woff2') format('woff2');
+  font-weight: 300 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Inter';
+  src: url('/fonts/inter-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('/fonts/plex-mono-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('/fonts/plex-mono-500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('/fonts/plex-mono-600.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}

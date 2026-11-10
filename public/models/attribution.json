@@ -1,0 +1,116 @@
+{
+  "retrieved": "2026-11-11",
+  "policy": "Assets stored locally; no runtime hotlinks. GLB models are lazy-loaded on section visibility with static fallbacks; research imagery is locally bundled and source-linked. NASA assets follow current NASA media/3D usage guidelines; no NASA endorsement of FlameLens is implied.",
+  "assets": [
+    {
+      "file": "/models/iss-b.glb",
+      "name": "International Space Station (ISS) (B)",
+      "format": "GLB (glTF 2.0 binary)",
+      "publisher": "NASA Science 3D Resources",
+      "sourcePage": "https://science.nasa.gov/3d-resources/international-space-station-iss-b/",
+      "downloadUrl": "https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/international-space-station-(iss)-(b)/International%20Space%20Station%20(ISS)%20(B).glb",
+      "bytes": 476992,
+      "sha256": "2ba4427413b0dd89a33d2acaf962dea8a96a3b1d8dceda05cc7aad547ffd3d16",
+      "verification": "glTF magic + version 2 + declared length matches file length; size matches NASA page listing (465.81 KB)",
+      "licenseNote": "NASA asset; follow current NASA media/3D usage guidelines.",
+      "role": "Hero orbital-habitat context. Compact variant chosen over the ~91 MB IGOAL model.",
+      "viewerNote": "Source GLB contains a detached truss cluster ~25 units above the station (authoring artifact). The viewer frames the dominant connected structure and does not render detached geometry far outside it; the file itself is unmodified."
+    },
+    {
+      "file": "/models/apollo-lunar-module.glb",
+      "name": "Apollo Lunar Module",
+      "format": "GLB (glTF 2.0 binary)",
+      "publisher": "NASA Science 3D Resources",
+      "sourcePage": "https://science.nasa.gov/3d-resources/apollo-lunar-module/",
+      "downloadUrl": "https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/apollo-lunar-module/Apollo%20Lunar%20Module.glb",
+      "bytes": 716840,
+      "sha256": "379101dfcee399267addf771709107c35e826b0b9e5233272f123e4c8a585c4e",
+      "verification": "glTF magic + version 2 + declared length matches file length; size matches manifest listing (700.04 KB)",
+      "licenseNote": "NASA asset; follow current NASA media/3D usage guidelines.",
+      "role": "Historical lunar-surface context only in the mission switcher. Explicitly labelled as not current lunar habitat hardware."
+    },
+    {
+      "file": "/models/perseverance.glb",
+      "name": "Mars 2020 Perseverance Rover",
+      "format": "GLB (glTF 2.0 binary)",
+      "publisher": "NASA Science 3D Resources",
+      "sourcePage": "https://science.nasa.gov/3d-resources/mars-2020-perseverance-rover/",
+      "downloadUrl": "https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/mars-2020-perseverance-rover/Mars%202020%20Perseverance%20Rover.glb",
+      "bytes": 4987176,
+      "sha256": "10db7c03a5e63a5a3b3e7baa6243aa4918ba045fa8ff0a731d0217491adc727f",
+      "verification": "glTF magic + version 2 + declared length matches file length; size matches NASA page listing (4.76 MB)",
+      "licenseNote": "NASA/JPL asset; follow current NASA media/3D usage guidelines.",
+      "role": "Mars tab of the mission switcher — robotic exploration context only, explicitly labelled as never a crewed pressurized rover design."
+    },
+    {
+      "file": "/models/astronaut.glb",
+      "name": "Astronaut",
+      "format": "GLB (glTF 2.0 binary)",
+      "publisher": "NASA Science 3D Resources (model by DigitalSpace Corporation)",
+      "sourcePage": "https://science.nasa.gov/3d-resources/astronaut/",
+      "downloadUrl": "https://assets.science.nasa.gov/content/dam/science/cds/3d/resources/model/astronaut/Astronaut.glb",
+      "bytes": 762988,
+      "sha256": "d18c141410542b935113d1c25a9271d90c40d44015a64295b7b68a30f0ce2820",
+      "verification": "glTF magic + version 2 + declared length matches file length; size matches NASA page listing (745.11 KB)",
+      "licenseNote": "NASA asset; follow current NASA media/3D usage guidelines.",
+      "role": "Static NASA astronaut; superseded by the animated scroll guide (astronaut-animated.glb). Retained in repository, not rendered."
+    },
+    {
+      "file": "/models/astronaut-signin.glb",
+      "name": "Animated Astronaut Character in Space Suit Loop",
+      "format": "GLB (glTF 2.0 binary), meshopt-compressed, skinned mesh + 91-bone armature + embedded textures",
+      "publisher": "LasquetiSpice",
+      "sourcePage": "https://sketchfab.com/3d-models/animated-astronaut-character-in-space-suit-loop-8fe5c8d3365e4d87bb7bc253d53a64e1",
+      "preparedDownloadPage": "https://aizity.com/assets/free-3d-model-download/animated-astronaut-character-in-space-suit-loop-3d-model",
+      "retrievedFrom": "https://pmyxfhcsxicyyexijngx.supabase.co/storage/v1/object/public/Aizity/3d-assets-360-view/animated-astronaut-character-in-space-suit-loop-3d-model-4481b42d-9535-495c-bc53-03aa94babef3/aizity-com-animated-astronaut-character-in-space-suit-loop-3d-model-4481b42d-9535-495c-bc53-03aa94babef3-1792344495102.glb",
+      "bytes": 2157860,
+      "sha256": "a9989235c4ec2ebd77b7f48d5081310bb803ddf0f0fecc5177de52c51e50a8d5",
+      "verification": "GLB loaded through three.js GLTFLoader with MeshoptDecoder; inspected 4 skinned mesh parts, 91 bones, bounding box ~1.011 x 1.851 x 0.824 m. Detected animation clips: wave (1.958s), idle (8.625s), floating (6.958s), moon_walk (4.625s).",
+      "licenseNote": "CC BY 4.0. Required credit: \"Animated Astronaut Character in Space Suit Loop\" by LasquetiSpice, licensed under CC BY 4.0.",
+      "role": "Sign-in page guide only. Loops the wave clip as a continuous greeting beside the auth panel; reduced-motion and WebGL-failure states use a static SVG fallback. Not used on the landing page."
+    },
+    {
+      "file": "/models/astronaut-animated.glb",
+      "name": "Tenhun Falling spaceman (FanArt)",
+      "format": "GLB (glTF 2.0 binary), skinned mesh + 36-bone armature + 'Idle' animation clip",
+      "publisher": "3D model by wallmasterr; based on the spaceman design by Tenhun (tenhundredart.com)",
+      "sourcePage": "https://sketchfab.com/3d-models/tenhun-falling-spaceman-fanart-9fd80b6a259f41fd99e6f56eee686dc5",
+      "retrievedFrom": "https://raw.githubusercontent.com/arnobt78/Portfolio-Landing-Page-2-React-Frontend/HEAD/public/models/tenhun_falling_spaceman_fanart.glb",
+      "bytes": 2985792,
+      "sha256": "17f9f97a81eb07fe456c3f78a2a51898ebc6b88d3908a1d7c3e3613562a0df25",
+      "verification": "glTF magic + version 2 + declared length matches file length; 36 bones, 10 skinned meshes, one 6.667s 'Idle' clip inspected at runtime.",
+      "licenseNote": "CC Attribution (CC-BY). Required credit: 'Tenhun Falling spaceman (FanArt) 3D model by wallmasterr', based on a design by Tenhun.",
+      "role": "Former landing-page scroll guide. Retained in repository for provenance only; not rendered after the sign-in astronaut migration.",
+      "viewerNote": "Source scene includes floating music-gear/debris props (keyboard, drum, microphone, wrench, headphones). The guide hides those prop meshes (Plane_0, Cube009_0, Cube011_0) so only the suited astronaut body renders; the file itself is unmodified."
+    },
+    {
+      "file": "/models/mission-guide-robocat.glb",
+      "name": "RoboCatHelper",
+      "format": "GLB (glTF 2.0 binary), rigged low-poly character",
+      "publisher": "Gobkit free 3D library",
+      "sourcePage": "https://gobkit.com/freebies",
+      "downloadUrl": "https://gobkit.com/freebies/human018/RoboCatHelper.glb",
+      "bytes": 695528,
+      "sha256": "f683ad0c75b8e860daeb4da1305c8c82888b9efb048e85022a6dd3f8f1be70f3",
+      "verification": "GLB v2 parsed locally; 1 mesh, 1 skin, 15 nodes; embedded clips verified: Idle (2.033s), Walk (1.033s), Run (0.633s), Special (1.633s), Hit (0.533s), Attack (0.833s), Death (1.367s), 42 channels per clip.",
+      "licenseNote": "CC0 1.0 Universal per Gobkit free-library listing; attribution is not required. FlameLens also credits the source on the Mission Deck.",
+      "role": "Mica, the Mission Deck evidence-guide mascot. Uses the verified Idle loop and plays verified Special/Walk clips in response to level actions; it is not an emergency-response avatar."
+    }
+  ],
+  "decoders": [
+    {
+      "path": "/draco/",
+      "files": [
+        "draco_decoder.js",
+        "draco_decoder.wasm",
+        "draco_wasm_wrapper.js"
+      ],
+      "origin": "Bundled with three.js r170 (examples/jsm/libs/draco/gltf), copied locally so Draco-compressed NASA GLBs decode without any runtime CDN dependency.",
+      "licenseNote": "Draco is Apache-2.0; three.js is MIT."
+    }
+  ],
+  "notDownloaded": [
+    "ISS (D) IGOAL GLB/FBX (~91 MB) — too heavy for first load; compact ISS (B) used instead",
+    "Gateway Core (63 MB), Z2 Spacesuit (16 MB), Mark III, Poly Haven fire extinguisher — not required for this milestone"
+  ]
+}
