@@ -5,9 +5,12 @@
   "type": "module",
   "description": "FlameLens public landing experience — NASA microgravity combustion intelligence.",
   "scripts": {
+    "predev": "node tools/build-copilot-index.mjs",
     "dev": "vite",
+    "prebuild": "node tools/build-copilot-index.mjs",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
+    "pretest": "node tools/build-copilot-index.mjs",
     "test": "vitest run src",
     "test:e2e": "playwright test"
   },

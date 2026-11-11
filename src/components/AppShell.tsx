@@ -12,7 +12,6 @@ const AUTH_NAV = [
   { id: 'copilot', label: 'Research Copilot', path: '/copilot' },
 ];
 
-const COMING_SOON = new Set(['copilot']);
 
 export function AppShell() {
   const location = useLocation();
@@ -68,28 +67,13 @@ export function AppShell() {
             <ul className="app-nav-list">
               {AUTH_NAV.map((item) => (
                 <li key={item.id}>
-                  {COMING_SOON.has(item.id) ? (
-                    <button
-                      type="button"
-                      className={`app-nav-link${isActive(item.path) ? ' is-active' : ''}`}
-                      disabled
-                      aria-disabled="true"
-                      aria-current={isActive(item.path) ? 'page' : undefined}
-                    >
-                      {item.label}
-                      <span className="app-nav-coming" aria-label="Coming in next module">
-                        ·
-                      </span>
-                    </button>
-                  ) : (
-                    <Link
-                      to={item.path}
-                      className={`app-nav-link${isActive(item.path) ? ' is-active' : ''}`}
-                      aria-current={isActive(item.path) ? 'page' : undefined}
-                    >
-                      {item.label}
-                    </Link>
-                  )}
+                  <Link
+                    to={item.path}
+                    className={`app-nav-link${isActive(item.path) ? ' is-active' : ''}`}
+                    aria-current={isActive(item.path) ? 'page' : undefined}
+                  >
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -169,27 +153,14 @@ export function AppShell() {
           <ul className="app-sidebar-nav">
             {AUTH_NAV.map((item) => (
               <li key={item.id}>
-                {COMING_SOON.has(item.id) ? (
-                  <button
-                    type="button"
-                    className={`app-sidebar-link${isActive(item.path) ? ' is-active' : ''}`}
-                    disabled
-                    aria-disabled="true"
-                    aria-current={isActive(item.path) ? 'page' : undefined}
-                  >
-                    {item.label}
-                    <span className="app-nav-coming" aria-label="Coming in next module">·</span>
-                  </button>
-                ) : (
-                  <Link
-                    to={item.path}
-                    className={`app-sidebar-link${isActive(item.path) ? ' is-active' : ''}`}
-                    aria-current={isActive(item.path) ? 'page' : undefined}
-                    onClick={() => setSidebarOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
-                )}
+                <Link
+                  to={item.path}
+                  className={`app-sidebar-link${isActive(item.path) ? ' is-active' : ''}`}
+                  aria-current={isActive(item.path) ? 'page' : undefined}
+                  onClick={() => setSidebarOpen(false)}
+                >
+                  {item.label}
+                </Link>
               </li>
             ))}
           </ul>

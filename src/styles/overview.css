@@ -18,6 +18,45 @@
   display: none;
 }
 
+.rc-overview-trail {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  min-height: 46px;
+  padding: 8px 10px;
+  border: 1px solid rgba(156, 196, 216, 0.14);
+  background: rgba(7, 13, 21, 0.58);
+  color: #a9b5c5;
+  font: 8px var(--font-mono);
+  letter-spacing: 0.07em;
+}
+
+.rc-overview-trail span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.rc-overview-trail i {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border: 1px solid rgba(121, 215, 233, 0.36);
+  border-radius: 50%;
+  color: #79d7e9;
+  font-style: normal;
+  font-size: 7px;
+}
+
+.rc-overview-trail b {
+  color: rgba(121, 215, 233, 0.6);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+
 .overview .section-label {
   gap: 8px;
   letter-spacing: 0.16em;

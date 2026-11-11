@@ -12,6 +12,7 @@ import { Overview } from './pages/Overview';
 import { Explorer } from './pages/Explorer';
 import { ComparisonLab } from './pages/ComparisonLab';
 import { MissionDeck } from './pages/MissionDeck';
+import { ResearchCopilot } from './pages/ResearchCopilot';
 
 const ModelLab = lazy(() => import('./pages/ModelLab').then(({ ModelLab }) => ({ default: ModelLab })));
 
@@ -62,7 +63,7 @@ export default function App() {
           <Route path="/comparison" element={<ComparisonLab />} />
           <Route path="/models/:trackId?" element={<Suspense fallback={<div className="app-placeholder">Loading research workspace…</div>}><ModelLab /></Suspense>} />
           <Route path="/playground" element={<MissionDeck />} />
-          <Route path="/copilot" element={<div className="app-placeholder">Research Copilot — coming in next module</div>} />
+          <Route path="/copilot" element={<ResearchCopilot />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

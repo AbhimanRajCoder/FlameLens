@@ -684,20 +684,22 @@ export function Overview() {
 
             <InteractiveCard
               title="Research Copilot"
-              titleTo="/#research-copilot"
-              description="Natural-language query interface over audited evidence with provenance citations."
-              status="planned"
-              statusLabel="Preview on Landing Page"
+              titleTo="/copilot"
+              description="Search local NASA and PSI evidence, open cited passages, and inspect what is not in the source bundle."
+              status="ready"
+              statusLabel="Local Evidence Retrieval"
               icon={<OrbitalMark size={22} />}
               actions={[
-                { label: 'View Copilot Preview', variant: 'secondary', to: '/#research-copilot' },
+                { label: 'Open Research Copilot', variant: 'primary', to: '/copilot' },
               ]}
             >
               <div className="quick-card-preview">
-                <div className="quick-preview-placeholder">
-                  <OrbitalMark size={28} />
-                  <p>Evidence-grounded responses with investigation-level citations and uncertainty flags</p>
+                <div className="rc-overview-trail" aria-label="Citation trail preview">
+                  <span><i>Q</i> QUESTION</span><b aria-hidden="true">···</b>
+                  <span><i>02</i> SOURCE EXCERPTS</span><b aria-hidden="true">···</b>
+                  <span><i>↗</i> VERIFY</span>
                 </div>
+                <p className="md-overview-game-note">Local source passages stay attached to each answer.</p>
               </div>
             </InteractiveCard>
           </div>
