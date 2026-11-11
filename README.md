@@ -1,9 +1,37 @@
-# FlameLens — NASA Fire-Safety Intelligence Dashboard
+# FlameLens
 
-This is the project handoff for Quoder. Start with `QUODER_BOOTSTRAP_PROMPT.md`, then `START_HERE.txt`, the five specifications in `documents/`, and `data/README_DATA_MAP.md`.
+FlameLens is an interactive research platform for exploring fire behavior and combustion research through the lens of spaceflight. It brings NASA investigation data, visual analysis tools, and guided learning experiences together in one workspace.
 
-The eight supplied NASA CSVs are physically segregated under `data/source_data/` by their primary use. The source tables are preserved unchanged. Per-model input/target/readiness rules are documented in `data/model_readmes/` and machine-readable audit files in `data/audit/`.
+Explore how gravity, airflow, fuel properties, and experimental conditions shape flame behavior. Follow the evidence from source records into visual comparisons and interactive scenarios, with context that helps make complex research easier to navigate.
 
-Additional NASA sources—including PSI-98, PSI-101, PSI-60, PSI-62, LUCI, FM², PSI-10, PSI-117 and DAFT/DAFT-2—are documented in `data/additional_official_sources/`. Their local file status is explicit: source notes are not substitutes for data files, and missing datasets have not been fabricated.
+## Explore FlameLens
 
-No trained ML weights or 3D GLB/FBX binaries were supplied. See `MODEL_ARTIFACT_STATUS.txt` and `assets/models/DOWNLOAD_STATUS.txt`.
+- **Investigation Explorer** — browse research investigations, source records, and experimental context.
+- **Comparison Lab** — compare measurements across selected investigations and inspect the underlying records.
+- **Model Lab** — explore interactive analysis for flame extinction, flame spread, and smoke-related research.
+- **Mission Deck** — work through short, evidence-focused scenarios with the field guide Mica.
+- **Research Copilot** — ask questions about the available research and explore relevant sources.
+- **Overview** — get a guided introduction to the research areas and workspace.
+
+## Run locally
+
+Requires Node.js and npm.
+
+```bash
+git clone https://github.com/amimishra990-cpu/FlameLens.git
+cd FlameLens
+npm install
+npm run dev
+```
+
+Vite prints the local address when the development server starts.
+
+To create a production build:
+
+```bash
+npm run build
+```
+
+## Technology
+
+FlameLens is built with React, TypeScript, and Vite. Three.js powers the interactive 3D experiences, and the research workspace is organized around NASA source data bundled with the project.
