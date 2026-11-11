@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="350" viewBox="0 0 1200 350" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="350" gradientUnits="userSpaceOnUse"><stop stop-color="#07111D"/><stop offset=".58" stop-color="#101C2C"/><stop offset="1" stop-color="#171326"/></linearGradient>
+    <linearGradient id="flame" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#FFF1B5"/><stop offset=".35" stop-color="#FFB45D"/><stop offset="1" stop-color="#EF6755"/></linearGradient>
+    <radialGradient id="glow"><stop stop-color="#56D9EE" stop-opacity=".2"/><stop offset="1" stop-color="#56D9EE" stop-opacity="0"/></radialGradient>
+    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse"><path d="M32 0H0V32" stroke="#A4C4D0" stroke-opacity=".055"/></pattern>
+    <filter id="soft" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="12"/></filter>
+  </defs>
+  <rect width="1200" height="350" rx="24" fill="url(#bg)"/>
+  <rect width="1200" height="350" rx="24" fill="url(#grid)"/>
+  <circle cx="944" cy="174" r="205" fill="url(#glow)"/>
+  <g fill="#D9EFF7" opacity=".65">
+    <circle cx="76" cy="73" r="1.4"/><circle cx="144" cy="271" r="1"/><circle cx="249" cy="51" r="1.2"/><circle cx="396" cy="304" r="1.3"/><circle cx="528" cy="63" r="1"/><circle cx="698" cy="289" r="1.2"/><circle cx="777" cy="45" r="1"/><circle cx="1094" cy="67" r="1.4"/><circle cx="1136" cy="258" r="1"/><circle cx="1014" cy="302" r="1.2"/>
+  </g>
+  <g transform="translate(950 174)">
+    <circle r="122" stroke="#75DCEC" stroke-opacity=".14"/>
+    <ellipse rx="168" ry="57" transform="rotate(-24)" stroke="#79DDEA" stroke-opacity=".48" stroke-width="1.5"/>
+    <ellipse rx="168" ry="57" transform="rotate(-24)" stroke="#B6F2F4" stroke-opacity=".2" stroke-width="7" stroke-dasharray="1 28" stroke-linecap="round">
+      <animateTransform attributeName="transform" type="rotate" from="-24" to="336" dur="36s" repeatCount="indefinite"/>
+    </ellipse>
+    <circle cx="150" cy="-67" r="5" fill="#80E7F2"/>
+    <circle r="86" fill="#07111D" fill-opacity=".44" stroke="#B4D3DA" stroke-opacity=".12"/>
+    <path d="M0 61C-8 42-37 28-34 2C-32-19-14-31-8-55C9-37 11-25 8-12C23-25 27-39 28-50C54-17 42 3 32 17C20 34 13 47 15 61H0Z" fill="#FF9B55" opacity=".32" filter="url(#soft)">
+      <animate attributeName="opacity" values=".2;.42;.25;.38;.2" dur="2.8s" repeatCount="indefinite"/>
+    </path>
+    <path d="M0 55C-7 39-26 27-24 8C-23-7-12-17-7-35C4-23 5-14 4-3C14-12 18-24 18-32C36-10 29 5 21 17C14 28 10 40 12 55H0Z" fill="url(#flame)">
+      <animate attributeName="d" dur="1.8s" repeatCount="indefinite" values="M0 55C-7 39-26 27-24 8C-23-7-12-17-7-35C4-23 5-14 4-3C14-12 18-24 18-32C36-10 29 5 21 17C14 28 10 40 12 55H0Z;M0 55C-9 39-23 28-21 10C-19-6-13-17-5-40C2-24 8-12 5 0C17-12 16-23 23-35C38-8 27 8 21 20C14 32 10 42 12 55H0Z;M0 55C-7 39-26 27-24 8C-23-7-12-17-7-35C4-23 5-14 4-3C14-12 18-24 18-32C36-10 29 5 21 17C14 28 10 40 12 55H0Z"/>
+    </path>
+    <path d="M0 48C-3 37-13 28-11 17C-10 8-5 1 0-9C6 2 8 10 5 17C12 11 13 4 14-1C24 16 14 25 10 33C6 39 5 44 7 48H0Z" fill="#FFF3C8" opacity=".92"/>
+  </g>
+  <path d="M64 58H316" stroke="#6AD8E8" stroke-width="2" stroke-linecap="round"/>
+  <text x="64" y="102" fill="#8DDDEA" font-family="Arial,sans-serif" font-size="14" letter-spacing="4">ORBITAL FIRE-SAFETY OBSERVATORY</text>
+  <text x="60" y="183" fill="#F1F6F7" font-family="Arial,sans-serif" font-size="66" font-weight="700" letter-spacing="2">FLAME<tspan fill="#7DE0EB">LENS</tspan></text>
+  <text x="64" y="225" fill="#BDCBD3" font-family="Arial,sans-serif" font-size="20">NASA combustion research, made explorable.</text>
+  <text x="64" y="282" fill="#91AAB7" font-family="monospace" font-size="12" letter-spacing="2">INVESTIGATE  ·  COMPARE  ·  UNDERSTAND</text>
+  <circle cx="64" cy="307" r="3" fill="#7DE0EB"><animate attributeName="opacity" values=".35;1;.35" dur="2s" repeatCount="indefinite"/></circle>
+  <text x="78" y="311" fill="#708795" font-family="monospace" font-size="10" letter-spacing="1.5">MICROGRAVITY COMBUSTION / RESEARCH WORKSPACE</text>
+</svg>
