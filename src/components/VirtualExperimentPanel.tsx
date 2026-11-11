@@ -53,6 +53,8 @@ export function VirtualExperimentPanel({ trackId, autoRunInitial = true, onBatch
     setResult(null);
     onBatchResetRef.current?.();
     try {
+      // Let the running state paint before local parsing and calculation begin.
+      await new Promise<void>((resolve) => window.setTimeout(resolve, 520));
       const finiteRange = (min: number, max: number, low: number, high: number, label: string) => {
         if (!Number.isFinite(min) || !Number.isFinite(max) || min > max) throw new Error(`${label}: enter finite minimum and maximum values, with minimum no greater than maximum.`);
         if (min < low || max > high) throw new Error(`${label} must stay within the observed or published range ${low}–${high}.`);
@@ -83,7 +85,7 @@ export function VirtualExperimentPanel({ trackId, autoRunInitial = true, onBatch
   const clearResults = () => { setResult(null); onBatchResetRef.current?.(); };
 
   return <section className="ml-experiment" aria-labelledby="ml-experiment-title">
-    <div className="ml-exp-heading"><div><span className="ml-eyebrow">VIRTUAL EXPERIMENT AGENT · LOCAL COMPUTATION</span><h2 id="ml-experiment-title">Set conditions. Run a batch.</h2><p>Runs a reproducible sweep against the selected research evidence. Results are calculated in your browser; no account, API key, or external service is used.</p></div><span className="ml-exp-pulse"><i />READY TO RUN</span></div>
+    <div className="ml-exp-heading"><div><span className="ml-eyebrow">VIRTUAL EXPERIMENT AGENT · LOCAL COMPUTATION</span><h2 id="ml-experiment-title">Set conditions. Run a batch.</h2><p>Runs a reproducible sweep against the selected research evidence. Results are calculated in your browser; no account, API key, or external service is used.</p></div><span className={`ml-exp-pulse${busy ? ' is-running' : ''}`} aria-live="polite"><i />{busy ? 'RUNNING LOCAL SWEEP' : 'READY TO RUN'}</span></div>
     <div className="ml-exp-body">
       <form className="ml-exp-controls" onChange={clearResults} onSubmit={(event) => { event.preventDefault(); void run(); }}>
         {trackId === 'extinction' ? <>
@@ -111,9 +113,10 @@ export function VirtualExperimentPanel({ trackId, autoRunInitial = true, onBatch
         <button className="ml-exp-run" type="submit" disabled={busy}>{busy ? 'Running batch…' : `Run ${count} experiments`} <span aria-hidden="true">↗</span></button>
       </form>
       <div className="ml-exp-results" aria-live="polite">
-        {error ? <div className="ml-exp-error" role="alert">{error}</div> : !result ? <p>{busy ? 'Running the selected conditions…' : 'Choose conditions, then run the batch to see refreshed outputs.'}</p> : trackId === 'extinction' && 'labelSummary' in result ? <>
+        {error ? <div className="ml-exp-error" role="alert">{error}</div> : !result ? <div className={`ml-exp-pending${busy ? ' is-running' : ''}`} role={busy ? 'status' : undefined}>{busy && <i aria-hidden="true"/>}{busy ? 'Sampling conditions and calculating the local FLEX batch…' : 'Choose conditions, then run the batch to see refreshed outputs.'}</div> : trackId === 'extinction' && 'labelSummary' in result ? <>
           <div className="ml-exp-result-title"><span>CASE BASED · FLEX PSI-69</span><b>{result.experiments.length} parameter cases</b></div>
-          <div className="ml-exp-metrics"><Metric label="Source observations" value={result.trainingRows.toLocaleString()} note="Complete FLEX rows"/><Metric label="Candidate test groups" value={String(result.evaluation.groups)} note="Held out by test ID"/><Metric label="Grouped accuracy" value={`${((result.evaluation.accuracy ?? 0) * 100).toFixed(1)}%`} note="Leave one test ID out"/><Metric label="Macro F1" value={(result.evaluation.macroF1 ?? 0).toFixed(3)} note="Same grouped folds"/></div>
+          <div className="ml-exp-metrics"><Metric label="Source observations" value={result.trainingRows.toLocaleString()} note="Complete FLEX rows"/><Metric label="FLEX test IDs" value={String(result.evaluation.groups)} note="In complete-case rows"/><Metric label="Dataset accuracy" value={`${((result.evaluation.accuracy ?? 0) * 100).toFixed(1)}%`} note="Leave one test ID out"/><Metric label="Macro F1" value={(result.evaluation.macroF1 ?? 0).toFixed(3)} note="Same grouped folds"/></div>
+          <p className="ml-exp-caveat">The accuracy and F1 are fixed dataset-level diagnostics for this method, so they stay the same across parameter batches. The label distribution and case table below respond to your selected conditions. FLEX test IDs are candidate groups; independence still needs source confirmation.</p>
           <p className="ml-exp-caveat">Outputs are neighbor-weighted shares of the literal <code>Test end</code> labels. They do not mean extinction probability; the source event semantics are not verified.</p>
           <div className="ml-exp-bars">{result.labelSummary.map((item) => <div key={item.label}><span>{item.label}</span><i><b style={{ width: `${item.share * 100}%` }}/></i><strong>{item.count}</strong></div>)}</div>
           <div className="ml-exp-table-wrap"><table className="ml-exp-table"><thead><tr><th>Case</th><th>Pressure</th><th>O₂</th><th>Droplet</th><th>Estimated source label</th><th>Nearest FLEX tests</th></tr></thead><tbody>{result.experiments.slice(0, 8).map((item, i) => <tr key={i}><td>{String(i + 1).padStart(2, '0')}</td><td>{item.pressure.toFixed(0)} mmHg</td><td>{item.oxygen.toFixed(3)}</td><td>{item.diameter.toFixed(2)} mm</td><td>{item.estimatedLabel}</td><td>{item.neighborIds.join(', ')}</td></tr>)}</tbody></table></div>

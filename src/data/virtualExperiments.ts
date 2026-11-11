@@ -70,13 +70,21 @@ function flexObservations(rows: ParsedRow[]): ExtinctionObservation[] {
   });
 }
 
+let flexRowsPromise: Promise<ExtinctionObservation[]> | null = null;
+let flexEvaluation: EmpiricalEvaluation | null = null;
+function loadFlexObservations() {
+  flexRowsPromise ??= loadRawSourceRows('psi-69').then(flexObservations);
+  return flexRowsPromise;
+}
+
 function classPrediction(query: Pick<ExtinctionObservation, 'fuel' | 'pressure' | 'oxygen' | 'diameter'>, rows: ExtinctionObservation[], excludedTestId?: string) {
   const allCandidates = rows.filter((row) => row.testId !== excludedTestId);
   const sameFuel = allCandidates.filter((row) => row.fuel === query.fuel);
   const candidates = sameFuel.length ? sameFuel : allCandidates;
-  const pressureRange = range(rows.map((row) => row.pressure));
-  const oxygenRange = range(rows.map((row) => row.oxygen));
-  const diameterRange = range(rows.map((row) => row.diameter));
+  // Fit feature scaling only on the training fold for leave-one-test-ID-out evaluation.
+  const pressureRange = range(candidates.map((row) => row.pressure));
+  const oxygenRange = range(candidates.map((row) => row.oxygen));
+  const diameterRange = range(candidates.map((row) => row.diameter));
   const scale = (bounds: { min: number; max: number }) => Math.max(bounds.max - bounds.min, 1e-6);
   const ranked = candidates.map((row) => {
     const dp = (row.pressure - query.pressure) / scale(pressureRange);
@@ -113,7 +121,7 @@ function evaluateExtinction(rows: ExtinctionObservation[]): EmpiricalEvaluation 
 }
 
 export async function runExtinctionExperiments(query: ExtinctionQuery): Promise<ExtinctionBatch> {
-  const rows = flexObservations(await loadRawSourceRows('psi-69'));
+  const rows = await loadFlexObservations();
   if (!rows.length) throw new Error('The local FLEX table has no complete source-label cases.');
   const domain = {
     pressure: range(rows.map((row) => row.pressure)), oxygen: range(rows.map((row) => row.oxygen)),
@@ -130,7 +138,8 @@ export async function runExtinctionExperiments(query: ExtinctionQuery): Promise<
   const totals = new Map<string, number>();
   experiments.forEach((experiment) => totals.set(experiment.estimatedLabel, (totals.get(experiment.estimatedLabel) ?? 0) + 1));
   const labelSummary = [...totals.entries()].map(([label, count]) => ({ label, count, share: count / experiments.length })).sort((a, b) => b.count - a.count);
-  return { experiments, labelSummary, trainingRows: rows.length, evaluation: evaluateExtinction(rows), domain };
+  flexEvaluation ??= evaluateExtinction(rows);
+  return { experiments, labelSummary, trainingRows: rows.length, evaluation: flexEvaluation, domain };
 }
 
 export interface SpreadQuery { thickness: number; width: number; sides: 1 | 2; flowMin: number; flowMax: number; count: number }

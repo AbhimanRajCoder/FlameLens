@@ -85,9 +85,10 @@ export default async function handler(req, res) {
   const body = req.body && typeof req.body === 'object' ? req.body : {};
   if (JSON.stringify(body).length > 6000) return response(res, 413, { error: 'Question is too large.' });
   const question = typeof body.question === 'string' ? body.question.trim() : '';
+  const pageContext = typeof body.pageContext === 'string' ? body.pageContext.trim().slice(0, 1200) : '';
   if (!question || question.length > 1000) return response(res, 400, { error: 'Ask a question under 1,000 characters.' });
 
-  const evidence = retrieve(question);
+  const evidence = retrieve(pageContext ? `${pageContext}\n${question}` : question);
   if (!evidence.length) return response(res, 200, { claims: [], followUps: ['Ask about a bundled investigation such as FLEX, BASS-II, SAME, SPICE, or CFI-G.'], note: 'No supporting local passage was retrieved.' });
 
   const allowedChunks = new Map(evidence.map(({ chunk, source }) => [chunk.id, { chunk, source }]));
