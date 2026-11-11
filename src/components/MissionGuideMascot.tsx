@@ -58,8 +58,8 @@ export function MissionGuideMascot({ action = 'Idle' }: { action?: 'Idle' | 'Wal
 
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(34, 1, .01, 80);
-        camera.position.set(0, 1.02, 4.75);
-        camera.lookAt(0, .92, 0);
+        camera.position.set(0, .1, 4.75);
+        camera.lookAt(0, 0, 0);
         scene.add(new THREE.HemisphereLight(0xb5d4e6, 0x101c25, 1.4));
         const key = new THREE.DirectionalLight(0xe4f4fa, 2.3);
         key.position.set(3, 5, 4);
