@@ -25,6 +25,7 @@ export function MissionGuideMascot({ action = 'Idle' }: { action?: 'Idle' | 'Wal
   const reduced = useReducedMotion();
   const hostRef = useRef<HTMLDivElement | null>(null);
   const [failed, setFailed] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const playMotionRef = useRef<((name: 'Idle' | 'Walk' | 'Special') => void) | null>(null);
   const actionRef = useRef(action);
   actionRef.current = action;
@@ -69,6 +70,7 @@ export function MissionGuideMascot({ action = 'Idle' }: { action?: 'Idle' | 'Wal
         const loader = new GLTFLoader();
         const gltf = await loader.loadAsync(MODEL_URL);
         if (cancelled) { webgl.dispose(); webgl.domElement.remove(); return; }
+        setLoaded(true);
         model = gltf.scene;
         model.updateMatrixWorld(true);
         const bounds = new THREE.Box3().setFromObject(model);
@@ -170,5 +172,5 @@ export function MissionGuideMascot({ action = 'Idle' }: { action?: 'Idle' | 'Wal
   useEffect(() => { playMotionRef.current?.(action); }, [action]);
 
   if (reduced || failed) return <MascotFallback />;
-  return <div className="md-mascot-stage" ref={hostRef} aria-hidden="true"><MascotFallback /></div>;
+  return <div className="md-mascot-stage" ref={hostRef} aria-hidden="true">{loaded ? null : <MascotFallback />}</div>;
 }

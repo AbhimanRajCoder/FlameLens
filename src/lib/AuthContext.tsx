@@ -7,10 +7,12 @@ type AuthContextValue = {
   configured: boolean;
   loading: boolean;
   session: AuthSession | null;
+  isGuest: boolean;
   refresh: () => Promise<void>;
   signIn: (email: string, password: string) => Promise<AuthSession | null>;
   signUp: (email: string, password: string) => Promise<{ session: AuthSession | null; needsEmailConfirmation: boolean }>;
   signOut: () => Promise<void>;
+  continueAsGuest: () => Promise<void>;
   requestPasswordReset: (email: string) => Promise<void>;
 };
 
@@ -18,6 +20,9 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<AuthSession | null>(null);
+  const [isGuest, setIsGuest] = useState(() => {
+    try { return window.sessionStorage.getItem('flamelens:guest-profile') === 'active'; } catch { return false; }
+  });
   const [loading, setLoading] = useState(true);
 
   const refresh = useCallback(async () => {
@@ -49,6 +54,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       configured: auth.authConfigured,
       loading,
       session,
+      isGuest,
       refresh,
       signIn: async (email, password) => {
         const next = await auth.signInWithPassword(email, password);
@@ -63,10 +69,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       signOut: async () => {
         await auth.signOut();
         setSession(null);
+        setIsGuest(false);
+        try { window.sessionStorage.removeItem('flamelens:guest-profile'); } catch { /* storage may be unavailable */ }
+      },
+      continueAsGuest: async () => {
+        await auth.signOut();
+        setSession(null);
+        setIsGuest(true);
+        try { window.sessionStorage.setItem('flamelens:guest-profile', 'active'); } catch { /* the current tab can still use the guest profile */ }
       },
       requestPasswordReset: auth.requestPasswordReset,
     }),
-    [loading, refresh, session],
+    [isGuest, loading, refresh, session],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

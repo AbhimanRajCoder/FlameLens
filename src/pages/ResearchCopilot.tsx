@@ -10,6 +10,20 @@ import '../styles/copilot.css';
 
 type Turn = { id: string; question: string; answer: CopilotAnswer; createdAt: number };
 type ProviderState = 'checking' | 'not-configured' | 'ready' | 'unavailable';
+const MAX_SAVED_TURNS = 40;
+
+function readSavedTurns(key: string): Turn[] {
+  try {
+    const value: unknown = JSON.parse(window.localStorage.getItem(key) || '[]');
+    if (!Array.isArray(value)) return [];
+    return value.filter((turn): turn is Turn => Boolean(turn && typeof turn === 'object' &&
+      typeof turn.id === 'string' && typeof turn.question === 'string' && typeof turn.createdAt === 'number' &&
+      turn.answer && typeof turn.answer === 'object' && typeof turn.answer.summary === 'string' && Array.isArray(turn.answer.claims)))
+      .slice(-MAX_SAVED_TURNS);
+  } catch {
+    return [];
+  }
+}
 
 function Glyph({ name }: { name: 'orbit' | 'send' | 'source' | 'link' | 'reset' | 'shield' }) {
   const paths = {
@@ -65,17 +79,36 @@ function EvidenceMap({ claims, activeId, onSelect }: { claims: CopilotClaim[]; a
 }
 
 export function ResearchCopilot() {
-  const { session } = useAuth();
+  const { session, isGuest, loading: authLoading } = useAuth();
   const [index, setIndex] = useState<CopilotIndex | null>(null);
   const [indexError, setIndexError] = useState('');
   const [providerState, setProviderState] = useState<ProviderState>('checking');
   const [providerConsent, setProviderConsent] = useState(false);
   const [question, setQuestion] = useState('');
   const [turns, setTurns] = useState<Turn[]>([]);
+  const [historyReady, setHistoryReady] = useState(false);
   const [selectedChunkId, setSelectedChunkId] = useState<string | null>(null);
   const [isWorking, setIsWorking] = useState(false);
   const [providerError, setProviderError] = useState('');
   const endRef = useRef<HTMLDivElement>(null);
+  const historyKey = session?.user.id ? `flamelens:copilot-history:v1:${session.user.id}` : null;
+
+  useEffect(() => {
+    if (authLoading) return;
+    const restored = historyKey ? readSavedTurns(historyKey) : [];
+    setTurns(restored);
+    const latestTurn = restored[restored.length - 1];
+    setSelectedChunkId(latestTurn?.answer.claims[0]?.evidence.chunk.id ?? null);
+    setHistoryReady(true);
+  }, [authLoading, historyKey]);
+
+  useEffect(() => {
+    if (!historyReady || !historyKey) return;
+    try {
+      if (turns.length) window.localStorage.setItem(historyKey, JSON.stringify(turns.slice(-MAX_SAVED_TURNS)));
+      else window.localStorage.removeItem(historyKey);
+    } catch { /* Private browsing or storage limits should not interrupt research. */ }
+  }, [historyKey, historyReady, turns]);
 
   useEffect(() => {
     let active = true;
@@ -171,7 +204,7 @@ export function ResearchCopilot() {
         <i aria-hidden="true"/>
         <span>{providerState === 'ready' ? 'SERVER PROVIDER CONFIGURED' : providerState === 'checking' ? 'CHECKING PROVIDER' : 'NO EXTERNAL MODEL CONNECTED'}</span>
         <span className="rc-status-spacer"/>
-        <span className="rc-session-note">Conversation stays in this tab</span>
+        <span className="rc-session-note">{session ? 'Account history · saved on this device' : isGuest ? 'Guest profile · chat is not saved' : 'Conversation stays in this tab'}</span>
       </div>
 
       {indexError ? <div className="rc-index-error" role="alert"><strong>Evidence index unavailable.</strong> {indexError} Restart the app or run the evidence-index build step, then reload.</div> : null}
@@ -180,7 +213,7 @@ export function ResearchCopilot() {
         <section className="rc-conversation" aria-label="Research conversation">
           <div className="rc-conversation-head">
             <div><span className="rc-eyebrow">WORKSPACE 01 / SOURCE REVIEW</span><h2>Evidence desk</h2></div>
-            <button type="button" className="rc-clear-button" onClick={clearSession} disabled={!turns.length}><Glyph name="reset"/>Clear session</button>
+            <button type="button" className="rc-clear-button" onClick={clearSession} disabled={!turns.length}><Glyph name="reset"/>{session ? 'Delete saved history' : 'Clear session'}</button>
           </div>
 
           {!turns.length ? <div className="rc-welcome">
@@ -221,6 +254,7 @@ export function ResearchCopilot() {
               <button type="submit" className="rc-send-button" disabled={!index || !question.trim() || isWorking}><span>{isWorking ? 'Searching' : 'Search evidence'}</span><Glyph name="send"/></button>
             </div>
             {providerState === 'ready' ? <label className="rc-provider-consent"><input type="checkbox" checked={providerConsent} onChange={(event) => setProviderConsent(event.target.checked)}/><span>Use configured AI provider. My question and retrieved public excerpts will be sent to it for a source-linked summary.</span></label> : null}
+            {isGuest && providerState === 'ready' ? <p className="rc-provider-hint">Guest profiles use local evidence retrieval. Sign in to use the configured AI summary.</p> : null}
             {providerState === 'unavailable' ? <p className="rc-provider-hint">Provider status endpoint unavailable; this remains local-only retrieval.</p> : null}
           </form>
         </section>
@@ -241,7 +275,7 @@ export function ResearchCopilot() {
         </aside>
       </div>
 
-      <footer className="rc-footer"><span>FLAMELENS / RESEARCH COPILOT</span><p>Research discovery only · not a model validation, hazard rating, or spacecraft fire-response authority.</p><span>SESSION-ONLY · NO CHAT PERSISTENCE</span></footer>
+      <footer className="rc-footer"><span>FLAMELENS / RESEARCH COPILOT</span><p>Research discovery only · not a model validation, hazard rating, or spacecraft fire-response authority.</p><span>{session ? 'ACCOUNT HISTORY · THIS DEVICE' : isGuest ? 'GUEST · NOT SAVED' : 'SESSION-ONLY'}</span></footer>
     </div>
   </section>;
 }

@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import { OrbitalMark } from '../components/OrbitalMark';
 import { INVESTIGATIONS, getInvestigation, type Investigation } from '../data/investigations';
 import { OverviewStarfield } from '../components/OverviewStarfield';
-import { MetricCard, StatRing, InteractiveCard } from '../components/MetricCard';
+import { MetricCard, InteractiveCard } from '../components/MetricCard';
 
 type ModelReadinessStatus = 'training-ready' | 'exploratory' | 'data-audited' | 'in-progress' | 'not-supported';
 
@@ -15,8 +15,6 @@ interface ModelTrack {
   statusLabel: string;
   statusNote: string;
   primarySource: string | null;
-  color: 'ice' | 'safe' | 'amber' | 'ember';
-  readinessPercent: number;
   keyMetrics: Array<{ label: string; value: string }>;
 }
 
@@ -63,8 +61,6 @@ function computeModelTracks(): ModelTrack[] {
       statusLabel: 'Exploratory',
       statusNote: 'FLEX (PSI-69) is the primary candidate; target semantics (Test end) and grouping require audit before training. CFI-G normal/inverse (PSI-159) event codes undecoded. CFD (PSI-117) is simulation, not flight data.',
       primarySource: 'PSI-69_FLEX',
-      color: 'amber' as const,
-      readinessPercent: 35,
       keyMetrics: [
         { label: 'Local Tables', value: '3' },
         { label: 'Total Rows', value: '1,468' },
@@ -81,8 +77,6 @@ function computeModelTracks(): ModelTrack[] {
       statusLabel: 'Data Audited',
       statusNote: 'BASS-II (PSI-25), SAFFIRE-II (PSI-99), SAFFIRE-III (PSI-100) local tables indexed and audited. No consistent microgravity spread-rate target exists in supplied CSVs. SAFFIRE-I (PSI-98) and tomography (PSI-62) registered but not ingested.',
       primarySource: 'PSI-25_BASS-II',
-      color: 'ice' as const,
-      readinessPercent: 55,
       keyMetrics: [
         { label: 'Local Tables', value: '3' },
         { label: 'Total Rows', value: '325' },
@@ -99,8 +93,6 @@ function computeModelTracks(): ModelTrack[] {
       statusLabel: 'In Progress',
       statusNote: 'SPICE (PSI-107) input-condition table indexed (469 rows, 34 exact duplicates). No smoke-point length, soot-volume-fraction, or smoke-emission target in this table. PSI-60 analysis products needed. ACME/Flame Design (PSI-10) registered, different target/geometry.',
       primarySource: 'PSI-107_SPICE',
-      color: 'ember' as const,
-      readinessPercent: 25,
       keyMetrics: [
         { label: 'Local Tables', value: '1' },
         { label: 'Total Rows', value: '469' },
@@ -117,8 +109,6 @@ function computeModelTracks(): ModelTrack[] {
       statusLabel: 'Not Supported',
       statusNote: 'SAME (PSI-102) local table has 8 rows (4 numeric, 4 notes) — no particle-size distribution or detector-response targets. SAME-R (PSI-101) and DAFT registered but not ingested. Dust (DAFT) is not combustion smoke.',
       primarySource: 'PSI-102_SAME',
-      color: 'amber' as const,
-      readinessPercent: 10,
       keyMetrics: [
         { label: 'Local Tables', value: '1' },
         { label: 'Total Rows', value: '8' },
@@ -301,14 +291,6 @@ const SEVERITY_STYLES = {
   info: { border: 'var(--ice-400)', bg: 'var(--ice-dim)', dot: 'var(--ice-400)', icon: '◆' },
 };
 
-const STATUS_STYLES = {
-  'training-ready': { color: 'safe' as const, label: 'Training Ready' },
-  'exploratory': { color: 'amber' as const, label: 'Exploratory' },
-  'data-audited': { color: 'ice' as const, label: 'Data Audited' },
-  'in-progress': { color: 'ember' as const, label: 'In Progress' },
-  'not-supported': { color: 'amber' as const, label: 'Not Supported' },
-};
-
 function getStatusForCard(status: ModelReadinessStatus): 'ready' | 'progress' | 'planned' | 'blocked' {
   if (status === 'training-ready') return 'ready';
   if (status === 'exploratory' || status === 'in-progress') return 'progress';
@@ -341,7 +323,7 @@ export function Overview() {
     return sum + (rowMap[i.id] ?? 0);
   }, 0);
 
-  const totalReadiness = Math.round(modelTracks.reduce((sum, t) => sum + t.readinessPercent, 0) / modelTracks.length);
+  const trainingReadyTracks = modelTracks.filter((track) => track.status === 'training-ready').length;
   const criticalNotices = qualityNotices.filter(n => n.severity === 'critical').length;
   const warningNotices = qualityNotices.filter(n => n.severity === 'warning').length;
 
@@ -360,15 +342,19 @@ export function Overview() {
                 FlameLens <span className="overview-hero-accent">Observatory</span>
               </h1>
               <p className="overview-hero-subtitle">
-                Real-time evidence intelligence from NASA microgravity combustion investigations.
-                All metrics derived from local audit files — no external APIs, no simulated data.
+                A repository snapshot of NASA microgravity combustion investigations. Counts come from the catalogued local evidence;
+                they are not live telemetry or measures of operational fire safety.
               </p>
             </div>
             <div className="overview-hero-visual">
-              <StatRing value={totalReadiness} label="Readiness" color="ice" size={128} strokeWidth={6} />
-              <div>
-                <p className="overview-hero-ring-kicker">Overall</p>
-                <p className="overview-hero-ring-copy">Mean readiness across four work tracks</p>
+              <div className="overview-evidence-summary">
+                <p className="overview-hero-ring-kicker">Evidence status · by work track</p>
+                <div className="overview-evidence-status-grid">
+                  {modelTracks.map((track) => <div key={track.id} className={`overview-evidence-status is-${track.status}`}>
+                    <span>{track.shortLabel}</span><strong>{track.statusLabel}</strong>
+                  </div>)}
+                </div>
+                <p className="overview-hero-ring-copy">Qualitative audit states; no synthetic readiness score.</p>
               </div>
             </div>
           </div>
@@ -381,17 +367,15 @@ export function Overview() {
               trend="neutral"
             />
             <MetricCard
-              label="Data Rows Indexed"
+              label="Rows in Local Exports"
               value={localRows.toLocaleString()}
-              subtext="Across 7 local PSI tables"
+              subtext="Across 7 local investigations · raw CSV row counts"
               icon={<OrbitalMark size={18} />}
-              trend="up"
-              trendText="+1,070 this cycle"
             />
             <MetricCard
-              label="Model Readiness"
-              value={`${totalReadiness}%`}
-              subtext="Average across 4 work tracks"
+              label="Training-ready Tracks"
+              value={trainingReadyTracks ? `${trainingReadyTracks} ${trainingReadyTracks === 1 ? 'track' : 'tracks'}` : 'None established'}
+              subtext={trainingReadyTracks ? 'Marked ready in the current evidence audit' : 'No track is marked ready in this audit'}
               icon={<OrbitalMark size={18} />}
               trend="neutral"
             />
@@ -400,8 +384,6 @@ export function Overview() {
               value={criticalNotices + warningNotices}
               subtext={`${criticalNotices} critical · ${warningNotices} warnings`}
               icon={<OrbitalMark size={18} />}
-              trend="down"
-              trendText="Tracking"
             />
           </div>
         </header>
@@ -416,7 +398,6 @@ export function Overview() {
           </header>
           <div className="overview-readiness-grid">
             {modelTracks.map((track) => {
-              const styles = STATUS_STYLES[track.status];
               return (
                 <InteractiveCard
                   key={track.id}
@@ -427,15 +408,7 @@ export function Overview() {
                   metrics={track.keyMetrics}
                   icon={<OrbitalMark size={22} />}
                   className={`readiness-card ${track.id}`}
-                  trailing={
-                    <StatRing
-                      value={track.readinessPercent}
-                      label="Ready"
-                      color={styles.color}
-                      size={84}
-                      strokeWidth={5}
-                    />
-                  }
+                  trailing={<div className={`readiness-evidence-badge is-${track.status}`}><span>Evidence state</span><strong>{track.statusLabel}</strong></div>}
                 >
                   <div className="readiness-card-investigations">
                     <p className="section-label mono">Investigations in Track</p>
@@ -651,10 +624,7 @@ export function Overview() {
                   {modelTracks.map((t) => (
                     <div key={t.id} className="readiness-mini-bar">
                       <div className="readiness-mini-label">{t.shortLabel}</div>
-                      <div className="readiness-mini-track">
-                        <div className="readiness-mini-fill" style={{ width: `${t.readinessPercent}%`, background: `var(--fn-${t.color === 'safe' ? 'prevent' : t.color === 'ice' ? 'detect' : t.color === 'amber' ? 'suppress' : 'context'})` }} />
-                      </div>
-                      <span className="readiness-mini-value">{t.readinessPercent}%</span>
+                      <span className={`readiness-mini-state is-${t.status}`}>{t.statusLabel}</span>
                     </div>
                   ))}
                 </div>

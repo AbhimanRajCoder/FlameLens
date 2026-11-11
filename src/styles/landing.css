@@ -2016,6 +2016,33 @@
   text-decoration: none;
 }
 
+.auth-guest-option {
+  display: grid;
+  gap: 9px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.auth-guest-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-400);
+  font: 9px var(--font-mono);
+  letter-spacing: .08em;
+}
+
+.auth-guest-divider::before,
+.auth-guest-divider::after {
+  content: '';
+  height: 1px;
+  flex: 1;
+  background: var(--hairline);
+}
+
+.auth-guest-button { width: 100%; }
+.auth-guest-option p { margin: 0; color: var(--text-400); font-size: 11px; line-height: 1.5; }
+
 .auth-message {
   border-radius: var(--radius-sm);
   padding: 10px 12px;

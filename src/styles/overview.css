@@ -199,6 +199,21 @@
   line-height: 1.45;
 }
 
+.overview-evidence-summary { min-width: min(100%, 390px); }
+.overview-evidence-status-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 7px; margin-top: 10px; }
+.overview-evidence-status { display: flex; flex-direction: column; gap: 4px; min-width: 0; padding: 8px 9px; border: 1px solid var(--ov-line); background: rgba(3, 7, 12, .42); }
+.overview-evidence-status > span { color: var(--text-400); font: 8px var(--font-mono); letter-spacing: .04em; text-transform: uppercase; }
+.overview-evidence-status > strong { color: #9dddea; font: 9px var(--font-mono); letter-spacing: .035em; text-transform: uppercase; overflow-wrap: anywhere; }
+.overview-evidence-status.is-not-supported > strong, .overview-evidence-status.is-exploratory > strong { color: var(--amber-400); }
+.overview-evidence-status.is-in-progress > strong { color: var(--ember-500); }
+
+.readiness-evidence-badge { display: grid; justify-items: end; gap: 5px; min-width: 106px; padding: 8px 10px; border: 1px solid var(--ov-line); background: rgba(3, 7, 12, .42); }
+.readiness-evidence-badge > span { color: var(--text-400); font: 8px var(--font-mono); letter-spacing: .1em; text-transform: uppercase; }
+.readiness-evidence-badge > strong { color: #9dddea; font: 10px var(--font-mono); letter-spacing: .04em; text-transform: uppercase; text-align: right; }
+.readiness-evidence-badge.is-not-supported > strong { color: var(--amber-400); }
+.readiness-evidence-badge.is-exploratory > strong { color: var(--amber-400); }
+.readiness-evidence-badge.is-in-progress > strong { color: var(--ember-500); }
+
 .overview-hero-metrics {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -815,6 +830,11 @@
   gap: 12px;
   padding: 4px 2px 2px;
 }
+
+.readiness-mini-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-width: 0; }
+.readiness-mini-state { color: #9dddea; font: 8px var(--font-mono); letter-spacing: .04em; text-align: right; text-transform: uppercase; }
+.readiness-mini-state.is-not-supported, .readiness-mini-state.is-exploratory { color: var(--amber-400); }
+.readiness-mini-state.is-in-progress { color: var(--ember-500); }
 
 .readiness-mini-bar {
   display: grid;

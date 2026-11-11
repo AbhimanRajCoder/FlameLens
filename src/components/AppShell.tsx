@@ -16,7 +16,7 @@ const AUTH_NAV = [
 export function AppShell() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { session, signOut, loading } = useAuth();
+  const { session, isGuest, signOut, loading } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
 
@@ -43,7 +43,7 @@ export function AppShell() {
     );
   }
 
-  if (!session) {
+  if (!session && !isGuest) {
     const next = encodeURIComponent(`${location.pathname}${location.search}`);
     return <Navigate to={`/sign-in?next=${next}`} replace />;
   }
@@ -110,7 +110,7 @@ export function AppShell() {
                 <span className="app-user-avatar" aria-hidden="true">
                   <OrbitalMark size={18} />
                 </span>
-                <span className="app-user-email">{session.user.email ?? 'Explorer'}</span>
+                <span className="app-user-email">{session?.user.email ?? 'Guest profile'}</span>
                 <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
                   <path d="M4 5.5l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none" />
                 </svg>
@@ -124,6 +124,9 @@ export function AppShell() {
                     <span>Overview</span>
                   </Link>
                 </li>
+                {isGuest ? <li role="none"><Link to="/sign-in" role="menuitem" onClick={() => setUserMenuOpen(false)}>
+                  <span>Sign in to save chat history</span>
+                </Link></li> : null}
                 <li role="none">
                   <button
                     type="button"
@@ -134,7 +137,7 @@ export function AppShell() {
                     <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true">
                       <path d="M10 3.5L4 7l6 3.5M4 7h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none" />
                     </svg>
-                    <span>Sign out</span>
+                    <span>{isGuest ? 'End guest session' : 'Sign out'}</span>
                   </button>
                 </li>
               </menu>
@@ -172,12 +175,15 @@ export function AppShell() {
                 <span>Overview</span>
               </Link>
             </li>
+            {isGuest ? <li><Link to="/sign-in" onClick={() => setSidebarOpen(false)}>
+              <span>Sign in to save chat history</span>
+            </Link></li> : null}
             <li>
               <button type="button" className="app-sidebar-signout" onClick={onSignOut}>
                 <svg width="16" height="16" viewBox="0 0 14 14" aria-hidden="true">
                   <path d="M10 3.5L4 7l6 3.5M4 7h8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" fill="none" />
                 </svg>
-                <span>Sign out</span>
+                <span>{isGuest ? 'End guest session' : 'Sign out'}</span>
               </button>
             </li>
           </ul>

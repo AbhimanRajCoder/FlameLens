@@ -21,7 +21,7 @@ export function AuthShell() {
   const navigate = useNavigate();
   const mode = modeFromPath(location.pathname);
   const reduced = useReducedMotion();
-  const { configured, signIn, signUp, requestPasswordReset } = useAuth();
+  const { configured, signIn, signUp, requestPasswordReset, continueAsGuest } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,7 +31,8 @@ export function AuthShell() {
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
 
-  const next = new URLSearchParams(location.search).get('next') || '/dashboard';
+  const requestedNext = new URLSearchParams(location.search).get('next') || '/dashboard';
+  const next = requestedNext.startsWith('/') && !requestedNext.startsWith('//') ? requestedNext : '/dashboard';
 
   const heading =
     mode === 'sign-up' ? 'Join the observatory' : mode === 'forgot-password' ? 'Reset your access' : 'Welcome back to FlameLens';
@@ -95,6 +96,19 @@ export function AuthShell() {
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Authentication failed. Please try again.');
+    } finally {
+      setPending(false);
+    }
+  };
+
+  const onContinueAsGuest = async () => {
+    setError('');
+    setPending(true);
+    try {
+      await continueAsGuest();
+      navigate(next, { replace: true });
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Guest profile could not be started. Please try again.');
     } finally {
       setPending(false);
     }
@@ -229,6 +243,16 @@ export function AuthShell() {
               </Link>
             ) : null}
           </div>
+
+          {mode === 'sign-in' ? (
+            <div className="auth-guest-option">
+              <div className="auth-guest-divider"><span>OR EXPLORE WITHOUT AN ACCOUNT</span></div>
+              <button type="button" className="btn btn-secondary auth-guest-button" onClick={() => void onContinueAsGuest()} disabled={pending}>
+                Continue as a guest
+              </button>
+              <p>Explore every tool. Copilot chats stay in this session and are not saved.</p>
+            </div>
+          ) : null}
 
           <p className="auth-footnote mono">
             FlameLens · NASA Microgravity Combustion Intelligence · research decision support only
