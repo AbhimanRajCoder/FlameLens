@@ -19,9 +19,9 @@ The browser ranks chunks locally with a small lexical TF-IDF-style scorer. It do
 
 `api/copilot.js` is an OpenAI-compatible Vercel function. It requires a valid Supabase access token, verifies that token with Supabase Auth, limits requests per signed-in user, retrieves evidence on the server from the generated corpus, and validates each returned citation ID against retrieved chunks. The browser sends a prompt to this function only after the user opts in. Neither provider keys nor prompts are written to logs.
 
-Configure `FLAMELENS_LLM_API_KEY` and `FLAMELENS_LLM_MODEL` only in the server-side hosting environment. These are deliberately absent from the local configuration. The client-safe Supabase URL and anon key are separate and are not LLM credentials. Without a provider key, the local retrieval copilot remains available and no remote answer generation is claimed.
+Configure `FLAMELENS_LLM_API_KEY` only in the server-side hosting environment. `FLAMELENS_LLM_MODEL` is an optional model override; the API defaults to `gpt-5.4-mini`. Never place the provider key in a `VITE_*` variable. The client-safe Supabase URL and anon key are separate and are not LLM credentials. Without a provider key, the local retrieval copilot remains available and no remote answer generation is claimed.
 
-The provider adapter has not been enabled or live-tested in this repository because no LLM key is configured. Server-side request throttling is in-memory and therefore best-effort across serverless instances; production-scale quotas require a shared rate-limit store.
+The provider endpoint is key-gated and only used after the user opts in. Automated tests do not send paid requests to OpenAI. Server-side request throttling is in-memory and therefore best-effort across serverless instances; production-scale quotas require a shared rate-limit store.
 
 ## Evaluation set
 

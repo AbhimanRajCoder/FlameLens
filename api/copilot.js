@@ -65,16 +65,16 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return response(res, 204, {});
   if (req.method === 'GET') {
     return response(res, 200, {
-      configured: Boolean(process.env.FLAMELENS_LLM_API_KEY && process.env.FLAMELENS_LLM_MODEL),
-      provider: 'OpenAI-compatible server adapter',
+      configured: Boolean(process.env.FLAMELENS_LLM_API_KEY),
+      provider: 'OpenAI API',
       mode: 'local-evidence retrieval remains available when provider is not configured',
     });
   }
   if (req.method !== 'POST') return response(res, 405, { error: 'Use GET for provider status or POST for an answer.' });
 
   const apiKey = process.env.FLAMELENS_LLM_API_KEY;
-  const model = process.env.FLAMELENS_LLM_MODEL;
-  if (!apiKey || !model) return response(res, 503, { error: 'No server-side language-model provider is configured. Local evidence retrieval is available.' });
+  const model = process.env.FLAMELENS_LLM_MODEL || 'gpt-5.4-mini';
+  if (!apiKey) return response(res, 503, { error: 'No server-side language-model API key is configured. Local evidence retrieval is available.' });
 
   let user;
   try { user = await verifySession(req); }
