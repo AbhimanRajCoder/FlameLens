@@ -40,7 +40,7 @@ test.describe('FlameLens Overview Dashboard', () => {
     await expect(page).toHaveURL(/\/dashboard/);
     
     await expect(page.locator('text=16 investigations catalogued')).toBeVisible();
-    await expect(page.locator('text=7 local tables indexed')).toBeVisible();
+    await expect(page.locator('text=Across 7 local investigations')).toBeVisible();
     await expect(page.locator('text=7 registered')).toBeVisible();
     await expect(page.locator('text=1 external')).toBeVisible();
     await expect(page.locator('text=future project to monitor')).toBeVisible();

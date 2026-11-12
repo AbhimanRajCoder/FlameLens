@@ -61,6 +61,13 @@ body:has(.model-lab) .app-breadcrumbs { display: none; }
 .ml-exp-heading p { max-width: 76ch; margin-top: 5px; color: #a9b7bc; font-size: 11.5px; line-height: 1.55; }
 .ml-exp-pulse { display: inline-flex; align-items: center; gap: 7px; padding: 7px 9px; border: 1px solid rgba(123, 197, 165, .26); color: #a6d7bd; font: 8px var(--font-mono); white-space: nowrap; }
 .ml-exp-pulse i { width: 6px; height: 6px; border-radius: 50%; background: #83c8a7; box-shadow: 0 0 9px rgba(131, 200, 167, .6); }
+.ml-exp-pulse.is-running { border-color: rgba(102, 217, 242, .32); color: #9adce6; }
+.ml-exp-pulse.is-running i { background: #75d9e8; box-shadow: 0 0 9px rgba(117, 217, 232, .7); animation: ml-running-pulse 1s ease-in-out infinite alternate; }
+.ml-exp-pending { display: flex; align-items: center; gap: 10px; min-height: 86px; padding: 18px; color: #95aab3; font-size: 12px; line-height: 1.5; }
+.ml-exp-pending.is-running { color: #b5c8ce; }
+.ml-exp-pending>i { width: 16px; height: 16px; flex: none; border: 1px solid rgba(102, 217, 242, .26); border-top-color: #84e1ec; border-radius: 50%; animation: ml-running-spin .8s linear infinite; }
+@keyframes ml-running-spin { to { transform: rotate(360deg); } }
+@keyframes ml-running-pulse { to { opacity: .35; } }
 .ml-exp-body { display: grid; grid-template-columns: minmax(190px, .33fr) minmax(0, 1fr); gap: 15px; padding-top: 14px; }
 .ml-exp-controls { display: grid; grid-template-columns: 1fr 1fr; align-content: start; gap: 9px; padding-right: 13px; border-right: 1px solid var(--ml-line); }
 .ml-exp-controls label { display: grid; gap: 4px; min-width: 0; color: #9caeb4; font: 8px var(--font-mono); line-height: 1.3; }
@@ -318,6 +325,7 @@ body:has(.model-lab) .app-breadcrumbs { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .model-lab * { scroll-behavior: auto !important; transition: none !important; }
+  .ml-exp-pulse.is-running i, .ml-exp-pending>i { animation: none !important; }
 }
 
 /* Larger type across the Model Lab, with the existing grid kept intact. */

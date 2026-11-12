@@ -11,10 +11,11 @@ import './styles/explorer.css';
 import './styles/comparison.css';
 import './styles/model-lab.css';
 import './styles/mission-deck.css';
+import './styles/global-assistant.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+    <BrowserRouter>
       <App />
     </BrowserRouter>
   </React.StrictMode>,

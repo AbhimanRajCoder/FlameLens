@@ -12,9 +12,10 @@ import { Overview } from './pages/Overview';
 import { Explorer } from './pages/Explorer';
 import { ComparisonLab } from './pages/ComparisonLab';
 import { MissionDeck } from './pages/MissionDeck';
-import { ResearchCopilot } from './pages/ResearchCopilot';
 
 const ModelLab = lazy(() => import('./pages/ModelLab').then(({ ModelLab }) => ({ default: ModelLab })));
+const ResearchCopilot = lazy(() => import('./pages/ResearchCopilot').then(({ ResearchCopilot }) => ({ default: ResearchCopilot })));
+const GlobalAssistant = lazy(() => import('./components/GlobalAssistant').then(({ GlobalAssistant }) => ({ default: GlobalAssistant })));
 
 function ScrollRestoration() {
   const { pathname, hash } = useLocation();
@@ -63,10 +64,11 @@ export default function App() {
           <Route path="/comparison" element={<ComparisonLab />} />
           <Route path="/models/:trackId?" element={<Suspense fallback={<div className="app-placeholder">Loading research workspace…</div>}><ModelLab /></Suspense>} />
           <Route path="/playground" element={<MissionDeck />} />
-          <Route path="/copilot" element={<ResearchCopilot />} />
+          <Route path="/copilot" element={<Suspense fallback={<div className="app-placeholder">Loading evidence copilot…</div>}><ResearchCopilot /></Suspense>} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <Suspense fallback={null}><GlobalAssistant /></Suspense>
       {!inConsole && <Footer />}
     </AuthProvider>
   );
